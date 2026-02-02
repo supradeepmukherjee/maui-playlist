@@ -44,8 +44,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     async Task RequestBluetooth()
     {
-        if (DeviceInfo.Platform != DevicePlatform.Android)
-            return;
+        if (DeviceInfo.Platform != DevicePlatform.Android) return;
 
         var status = PermissionStatus.Unknown;
 
@@ -53,40 +52,28 @@ public partial class MainViewModel : ObservableObject
         {
             status = await Permissions.CheckStatusAsync<MyBluetoothPermission>();
 
-            if (status == PermissionStatus.Granted)
-                return;
+            if (status == PermissionStatus.Granted) return;
 
             if (Permissions.ShouldShowRationale<MyBluetoothPermission>())
-            {
-                await Shell.Current.DisplayAlertAsync("Needs permissions", "BECAUSE!!!", "OK");
-            }
+                await Shell.Current.DisplayAlertAsync("Needs permissions", "To Test if it works", "OK");
 
             status = await Permissions.RequestAsync<MyBluetoothPermission>();
-
-
         }
         else
         {
             status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
 
-            if (status == PermissionStatus.Granted)
-                return;
+            if (status == PermissionStatus.Granted) return;
 
             if (Permissions.ShouldShowRationale<Permissions.LocationWhenInUse>())
-            {
-                await Shell.Current.DisplayAlertAsync("Needs permissions", "BECAUSE!!!", "OK");
-            }
+                await Shell.Current.DisplayAlertAsync("Needs permissions", "To Test if it works", "OK");
 
             status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-
-
         }
 
 
         if (status != PermissionStatus.Granted)
-            await Shell.Current.DisplayAlertAsync("Permission required",
-                "Location permission is required for bluetooth scanning. " +
-                "We do not store or use your location at all.", "OK");
+            await Shell.Current.DisplayAlertAsync("Permission required","Location permission is required for bluetooth scanning. We do not store or use your location at all.", "OK");
     }
     [RelayCommand]
     async Task CheckInternet()
