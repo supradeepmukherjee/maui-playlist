@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿#if ANDROID
+using Android.Widget;
+#endif
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiAppDI.Helpers;
 using MauiAppDI.Model;
@@ -23,7 +26,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     void IncrementCount()
     {
-        if(count == 0)
+        if (count == 0)
         {
 
         }
@@ -31,7 +34,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    Task Navigate() => 
+    Task Navigate() =>
         Shell.Current.GoToAsync($"{nameof(DetailPage)}?Count={Count}",
             new Dictionary<string, object>
             {
@@ -46,7 +49,7 @@ public partial class MainViewModel : ObservableObject
 
         var status = PermissionStatus.Unknown;
 
-        if(DeviceInfo.Version.Major >= 12)
+        if (DeviceInfo.Version.Major >= 12)
         {
             status = await Permissions.CheckStatusAsync<MyBluetoothPermission>();
 
@@ -55,7 +58,7 @@ public partial class MainViewModel : ObservableObject
 
             if (Permissions.ShouldShowRationale<MyBluetoothPermission>())
             {
-                await Shell.Current.DisplayAlert("Needs permissions", "BECAUSE!!!", "OK");
+                await Shell.Current.DisplayAlertAsync("Needs permissions", "BECAUSE!!!", "OK");
             }
 
             status = await Permissions.RequestAsync<MyBluetoothPermission>();
@@ -71,7 +74,7 @@ public partial class MainViewModel : ObservableObject
 
             if (Permissions.ShouldShowRationale<Permissions.LocationWhenInUse>())
             {
-                await Shell.Current.DisplayAlert("Needs permissions", "BECAUSE!!!", "OK");
+                await Shell.Current.DisplayAlertAsync("Needs permissions", "BECAUSE!!!", "OK");
             }
 
             status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
@@ -81,24 +84,22 @@ public partial class MainViewModel : ObservableObject
 
 
         if (status != PermissionStatus.Granted)
-            await Shell.Current.DisplayAlert("Permission required",
+            await Shell.Current.DisplayAlertAsync("Permission required",
                 "Location permission is required for bluetooth scanning. " +
                 "We do not store or use your location at all.", "OK");
     }
-
     [RelayCommand]
     async Task CheckInternet()
     {
-        NetworkAccess accessType = connectivity.NetworkAccess;
+        NetworkAccess networkAccess = Connectivity.NetworkAccess;
 
-        if (accessType == NetworkAccess.Internet)
+        if (networkAccess == NetworkAccess.Internet)
         {
-            toast.MakeToast("You Have Internet!");
+#if ANDROID
+            //await Shell.Current.DisplayAlertAsync("Connected to Internet!", "Go Ahead", "OK");
+            Toast.MakeText(Platform.CurrentActivity, "Internet active", ToastLength.Long).Show();
+#endif
         }
-        else
-        {
-            await Shell.Current.DisplayAlert("Check internet!", $"Current status: {accessType}", "OK");
-        }
+        else await Shell.Current.DisplayAlertAsync("Connection Problem", $"Current Status: {networkAccess}", "OK");
     }
-
 }

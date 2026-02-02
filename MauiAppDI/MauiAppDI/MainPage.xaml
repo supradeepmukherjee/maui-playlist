@@ -50,7 +50,7 @@
 
 
             <Button 
-                Text="Check Internet"
+                Text="Check Internet Status"
                 FontAttributes="Bold"
                 Command="{Binding CheckInternetCommand}"
                 HorizontalOptions="Center" />
