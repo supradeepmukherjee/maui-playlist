@@ -8,6 +8,19 @@
     <ScrollView>
         <VerticalStackLayout Spacing="25" Padding="30">
 
+            <Border 
+                WidthRequest="100" 
+                HeightRequest="100" 
+                Stroke="{AppThemeBinding Dark=Yellow,Light=Black}"
+                StrokeThickness="5"
+                StrokeShape="RoundRectangle 50">
+                <Border.Shadow>
+                    <Shadow Brush="White" Offset="5,5" Opacity=".75"/>
+                </Border.Shadow>
+                <Image Source="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-internet-icon-vector-png-image_9183287.png"
+    WidthRequest="100" HeightRequest="100"/>
+            </Border>
+
             <Label 
                 Text="Hello, World!"
                 SemanticProperties.HeadingLevel="Level1"
