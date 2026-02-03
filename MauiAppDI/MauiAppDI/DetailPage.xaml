@@ -13,7 +13,7 @@
                 HorizontalOptions="Center" />
 
         <Button Text="Go Back"
-                Command="{Binding BackCommand}"
+                Command="{Binding GoBackCommand}"
                 HorizontalOptions="Center"/>
 
 

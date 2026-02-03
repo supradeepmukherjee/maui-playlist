@@ -15,7 +15,7 @@ public partial class MainViewModel : ObservableObject
     IToast toast;
     public MainViewModel(IConnectivity connectivity, IToast toast)
     {
-        monkey = new Monkey { Name = "Mooch" };
+        monkey = new Monkey { Name = "Desi Monkey" };
         this.connectivity = connectivity;
         this.toast = toast;
     }
@@ -26,20 +26,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     void IncrementCount()
     {
-        if (count == 0)
-        {
-
-        }
         Count += 10;
     }
 
     [RelayCommand]
     Task Navigate() =>
-        Shell.Current.GoToAsync($"{nameof(DetailPage)}?Count={Count}",
-            new Dictionary<string, object>
-            {
-                ["Monkey"] = monkey
-            });
+        Shell.Current.GoToAsync($"{nameof(DetailPage)}?Count={Count}", new Dictionary<string, object> { ["Monkey"] = monkey });
 
     [RelayCommand]
     async Task RequestBluetooth()
